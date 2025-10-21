@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jogo da Sorte</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Tela inicial -->
+  <div id="tela-inicial" class="tela">
+    <h1>Eai Duelista, como está sua sorte hoje, ou seria a sua confiança no Coração das Cartas? Vamos testar?</h1>
+    <div class="botoes">
+      <button id="btn-sim">Sim</button>
+      <button id="btn-nao">Não</button>
+    </div>
+  </div>
+
+  <!-- Tela do jogo -->
+  <div id="tela-jogo" class="tela escondida">
+    <h2 id="mensagem-jogo"></h2>
+    <div id="container-cartas"></div>
+    <button id="btn-proximo" class="escondida">Próximo Nível</button>
+  </div>
+
+  <!-- Tela caso clique em Não -->
+  <div id="tela-nao" class="tela escondida">
+    <h1>OKAY... :(</h1>
+  </div>
+
+  <!-- Tela de derrota -->
+  <div id="tela-derrota" class="tela escondida">
+    <h2>Você devia ter confiado no coração das cartas!</h2>
+    <img src="Perdedor.png" alt="Perdedor">
+    <button id="btn-jogar-novamente">Jogar novamente</button>
+  </div>
+
+  <!-- Tela de parabéns -->
+  <div id="tela-parabens" class="tela escondida">
+    <h2>Parabéns, você é meu Guerreirinho!!</h2>
+    <img src="Parabens.webp" alt="Parabéns">
+  </div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
