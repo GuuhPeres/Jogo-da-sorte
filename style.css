@@ -8,7 +8,7 @@ body {
 }
 
 .tela {
-  display: none;
+  display: none; /* escondida por padrão */
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -51,7 +51,7 @@ body {
   background-color: #ffd633;
 }
 
-/* 🔥 Container das cartas geral */
+/* 🔥 Container das cartas com rolagem dupla */
 #container-cartas {
   display: flex;
   justify-content: center;
@@ -59,30 +59,20 @@ body {
   gap: 20px;
   margin-top: 20px;
   flex-wrap: wrap;
-  max-height: 70vh;
-  overflow-y: auto;
-  overflow-x: hidden;
+  max-height: 70vh;        /* impede de ultrapassar a tela verticalmente */
+  overflow-y: auto;        /* ativa rolagem vertical */
+  overflow-x: auto;        /* ativa rolagem lateral */
   padding: 10px;
-}
-
-/* Layout 2x2 específico para telas "Calma" */
-.calma-layout {
-  display: grid !important;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 20px;
-  justify-items: center;
-  align-items: center;
-  margin-top: 20px;
 }
 
 /* Barra de rolagem estilizada */
 #container-cartas::-webkit-scrollbar {
   width: 8px;
-  height: 8px;
+  height: 8px; /* mostra barra também horizontal */
 }
 
 #container-cartas::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 215, 0, 0.6);
+  background-color: rgba(255, 215, 0, 0.6); /* amarelo-dourado */
   border-radius: 10px;
 }
 
@@ -95,7 +85,7 @@ body {
   height: 220px;
   cursor: pointer;
   transition: transform 0.3s;
-  flex-shrink: 0;
+  flex-shrink: 0; /* impede que a carta diminua quando rolar lateralmente */
 }
 
 .carta:hover {
@@ -120,15 +110,26 @@ body {
   margin-top: 20px;
 }
 
-/* 🎞️ Animações */
 @keyframes fusao {
-  0% { transform: translateY(0) scale(1); opacity: 1; }
-  50% { transform: translateY(-20px) scale(1.2); opacity: 0.8; }
-  100% { transform: translateY(0) scale(1.4); opacity: 1; }
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-20px) scale(1.2);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(0) scale(1.4);
+    opacity: 1;
+  }
 }
 
 @keyframes desaparecer {
-  to { opacity: 0; transform: scale(0); }
+  to {
+    opacity: 0;
+    transform: scale(0);
+  }
 }
 
 #tela-derrota img,
@@ -153,22 +154,44 @@ body {
     padding: 10px;
   }
 
-  /* Ajuste geral das cartas no celular */
   #container-cartas {
-    flex-wrap: wrap;
-    justify-content: center;
-    overflow: auto;
-    width: 100%;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: 100vw;
+    padding: 10px 20px 20px 20px; /* espaçamento interno uniforme */
+    box-sizing: border-box;
+    scroll-padding-left: 20px; /* garante que a 1ª carta não corte */
+  }
+
+  #container-cartas .carta:first-child {
+    margin-left: 10px; /* pequeno espaço antes da 1ª carta */
+  }
+
+  #container-cartas {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
   }
 
   .carta {
     width: 120px;
     height: 180px;
   }
+}
 
-  /* Layout 2x2 responsivo nas telas Calma */
-  .calma-layout {
+/* 🌟 Layout especial para as fases CALMA (2x2 cartas) */
+.container-calma {
+  display: grid !important;
+  grid-template-columns: repeat(2, auto);
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+@media (max-width: 600px) {
+  .container-calma {
     grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
+    gap: 10px;
   }
 }
