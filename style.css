@@ -51,7 +51,7 @@ body {
   background-color: #ffd633;
 }
 
-/* 🔥 Container das cartas com rolagem */
+/* 🔥 Container das cartas com rolagem dupla */
 #container-cartas {
   display: flex;
   justify-content: center;
@@ -59,14 +59,16 @@ body {
   gap: 20px;
   margin-top: 20px;
   flex-wrap: wrap;
-  max-height: 70vh;        /* impede de ultrapassar a tela */
+  max-height: 70vh;        /* impede de ultrapassar a tela verticalmente */
   overflow-y: auto;        /* ativa rolagem vertical */
+  overflow-x: auto;        /* ativa rolagem lateral */
   padding: 10px;
 }
 
 /* Barra de rolagem estilizada */
 #container-cartas::-webkit-scrollbar {
   width: 8px;
+  height: 8px; /* mostra barra também horizontal */
 }
 
 #container-cartas::-webkit-scrollbar-thumb {
@@ -83,6 +85,7 @@ body {
   height: 220px;
   cursor: pointer;
   transition: transform 0.3s;
+  flex-shrink: 0; /* impede que a carta diminua quando rolar lateralmente */
 }
 
 .carta:hover {
@@ -137,7 +140,7 @@ body {
 
 /* 🔹 Quebra de linha funcional no texto das mensagens */
 #mensagem-jogo {
-  white-space: pre-line; /* respeita o \n */
+  white-space: pre-line;
   text-align: center;
   word-break: break-word;
   line-height: 1.5;
@@ -152,7 +155,11 @@ body {
   }
 
   #container-cartas {
-    max-height: 60vh;
+    flex-wrap: nowrap;        /* cartas ficam lado a lado */
+    justify-content: flex-start;
+    overflow-x: auto;         /* ativa rolagem lateral */
+    overflow-y: hidden;       /* evita scroll vertical duplo */
+    max-width: 100vw;
     padding-bottom: 20px;
   }
 
