@@ -130,34 +130,45 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // -------- Nível 3 --------
   function nivel3() {
-    mensagemJogo.textContent = "Okay, estava fácil demais, agora você pode prender o dragão antes mesmo de encontrar ele.\nEscolha entre 4 cartas:";
-    containerCartas.innerHTML = "";
-    const cartas = [imagens.milenar, imagens.milenar, imagens.baby, imagens.capture].sort(() => Math.random() - 0.5);
+  mensagemJogo.textContent = "Okay, estava fácil demais, agora você pode prender o dragão antes mesmo de encontrar ele.\nEscolha entre 4 cartas:";
+  containerCartas.innerHTML = "";
+  const cartas = [imagens.milenar, imagens.milenar, imagens.baby, imagens.capture].sort(() => Math.random() - 0.5);
 
-    cartas.forEach((img) => {
-      const carta = criarCarta(imagens.verso);
-      carta.addEventListener("click", () => {
-        carta.src = img;
-        carta.classList.add("selecionada");
-        setTimeout(() => {
-          carta.classList.remove("selecionada");
-          if (img === imagens.milenar) {
-            mensagemJogo.textContent = "Você avançou para o próximo nível!";
-            nivel4();
-          } else if (img === imagens.baby) {
-            carta.classList.add("topo");
-            containerCartas.innerHTML = "";
-            containerCartas.appendChild(carta);
-            setTimeout(() => calma2(carta), 1000);
-          } else {
-            carta.style.animation = "desaparecer 1s forwards";
-            setTimeout(() => derrota(), 1000);
-          }
-        }, 1000);
-      });
-      containerCartas.appendChild(carta);
+  cartas.forEach((img) => {
+    const carta = criarCarta(imagens.verso);
+    carta.addEventListener("click", () => {
+      carta.src = img;
+      carta.classList.add("selecionada");
+
+      setTimeout(() => {
+        carta.classList.remove("selecionada");
+
+        if (img === imagens.milenar) {
+          // Acertou o Dragão Milenar
+          mensagemJogo.textContent = "Você avançou para o próximo nível!";
+          nivel4();
+
+        } else if (img === imagens.baby) {
+          // Achou o Baby Dragon
+          mensagemJogo.textContent = "Você encontrou o Baby Dragon!";
+          carta.classList.add("topo");
+          containerCartas.innerHTML = "";
+          containerCartas.appendChild(carta);
+
+          // Mostra por 1 segundo e vai para o calma2
+          setTimeout(() => calma2(carta), 1000);
+
+        } else {
+          // Dragon Capture → Derrota
+          carta.style.animation = "desaparecer 1s forwards";
+          setTimeout(() => derrota(), 1000);
+        }
+      }, 1000);
     });
-  }
+    containerCartas.appendChild(carta);
+  });
+}
+
 
   // -------- Calma2 --------
   function calma2(babyCarta) {
@@ -212,9 +223,10 @@ document.addEventListener("DOMContentLoaded", () => {
           if (img === imagens.milenar) {
             parabens();
           } else if (img === imagens.baby) {
-            carta.classList.add("topo");
-            containerCartas.innerHTML = "";
-            containerCartas.appendChild(carta);
+            mensagemJogo.textContent = "Você encontrou o Baby Dragon!";
+          carta.classList.add("topo");
+          containerCartas.innerHTML = "";
+          containerCartas.appendChild(carta);
             setTimeout(() => calma3(carta), 1000);
           } else if (img === imagens.capture) {
             carta.style.animation = "desaparecer 1s forwards";
