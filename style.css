@@ -168,7 +168,10 @@ body {
 #container-cartas .carta:first-child {
   margin-left: 10px; /* pequeno espaço antes da 1ª carta */
 }
-
+#container-cartas {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
 
   .carta {
     width: 120px;
