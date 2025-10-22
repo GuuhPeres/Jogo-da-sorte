@@ -79,7 +79,8 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => {
           carta.classList.remove("selecionada");
           if (img === imagens.milenar) {
-            mensagemJogo.textContent = "Okay, estava fácil demais, agora você pode prender o dragão antes mesmo de encontrar ele.";
+            mensagemJogo.textContent =
+              "Okay, estava fácil demais, agora você pode prender o dragão antes mesmo de encontrar ele.";
             nivel3();
           } else {
             carta.classList.add("topo");
@@ -97,12 +98,16 @@ document.addEventListener("DOMContentLoaded", () => {
   // -------- Calma1 --------
   function calma1(babyCarta) {
     mensagemJogo.textContent =
-      "Calma, você não perdeu ainda! Confia aí nesse tal do coração das cartas e vê se acha o Mago do Tempo!\nEscolha entre duas cartas:";
-    const containerDuelo = document.createElement("div");
-    containerDuelo.classList.add("duelo");
-    const opcoes = [imagens.mago, imagens.capture].sort(() => Math.random() - 0.5);
+      "Calma, você não perdeu ainda!\nConfia aí nesse tal do coração das cartas e vê se acha o Mago do Tempo!\nEscolha entre duas cartas:";
+    containerCartas.innerHTML = "";
+    babyCarta.classList.add("topo");
+    containerCartas.appendChild(babyCarta);
 
-    opcoes.forEach((img) => {
+    const cartasDuelo = [imagens.mago, imagens.capture].sort(() => Math.random() - 0.5);
+    const containerDuelo = document.createElement("div");
+    containerDuelo.classList.add("container-calma");
+
+    cartasDuelo.forEach((img) => {
       const carta = criarCarta(imagens.verso);
       carta.addEventListener("click", () => {
         carta.src = img;
@@ -124,62 +129,59 @@ document.addEventListener("DOMContentLoaded", () => {
       containerDuelo.appendChild(carta);
     });
 
-    containerCartas.appendChild(babyCarta);
     containerCartas.appendChild(containerDuelo);
   }
 
   // -------- Nível 3 --------
   function nivel3() {
-  mensagemJogo.textContent = "Okay, estava fácil demais, agora você pode prender o dragão antes mesmo de encontrar ele.\nEscolha entre 4 cartas:";
-  containerCartas.innerHTML = "";
-  const cartas = [imagens.milenar, imagens.milenar, imagens.baby, imagens.capture].sort(() => Math.random() - 0.5);
+    mensagemJogo.textContent =
+      "Okay, estava fácil demais, agora você pode prender o dragão antes mesmo de encontrar ele.\nEscolha entre 4 cartas:";
+    containerCartas.innerHTML = "";
+    const cartas = [imagens.milenar, imagens.milenar, imagens.baby, imagens.capture].sort(
+      () => Math.random() - 0.5
+    );
 
-  cartas.forEach((img) => {
-    const carta = criarCarta(imagens.verso);
-    carta.addEventListener("click", () => {
-      carta.src = img;
-      carta.classList.add("selecionada");
+    cartas.forEach((img) => {
+      const carta = criarCarta(imagens.verso);
+      carta.addEventListener("click", () => {
+        carta.src = img;
+        carta.classList.add("selecionada");
 
-      setTimeout(() => {
-        carta.classList.remove("selecionada");
+        setTimeout(() => {
+          carta.classList.remove("selecionada");
 
-        if (img === imagens.milenar) {
-          // Acertou o Dragão Milenar
-          mensagemJogo.textContent = "Você avançou para o próximo nível!";
-          nivel4();
-
-        } else if (img === imagens.baby) {
-          // Achou o Baby Dragon
-          mensagemJogo.textContent = "Você encontrou o Baby Dragon!";
-          carta.classList.add("topo");
-          containerCartas.innerHTML = "";
-          containerCartas.appendChild(carta);
-
-          // Mostra por 1 segundo e vai para o calma2
-          setTimeout(() => calma2(carta), 1000);
-
-        } else {
-          // Dragon Capture → Derrota
-          carta.style.animation = "desaparecer 1s forwards";
-          setTimeout(() => derrota(), 1000);
-        }
-      }, 1000);
+          if (img === imagens.milenar) {
+            mensagemJogo.textContent = "Você avançou para o próximo nível!";
+            nivel4();
+          } else if (img === imagens.baby) {
+            mensagemJogo.textContent = "Você encontrou o Baby Dragon!";
+            carta.classList.add("topo");
+            containerCartas.innerHTML = "";
+            containerCartas.appendChild(carta);
+            setTimeout(() => calma2(carta), 1000);
+          } else {
+            carta.style.animation = "desaparecer 1s forwards";
+            setTimeout(() => derrota(), 1000);
+          }
+        }, 1000);
+      });
+      containerCartas.appendChild(carta);
     });
-    containerCartas.appendChild(carta);
-  });
-}
-
+  }
 
   // -------- Calma2 --------
   function calma2(babyCarta) {
     containerCartas.innerHTML = "";
     babyCarta.classList.add("topo");
     containerCartas.appendChild(babyCarta);
-    mensagemJogo.textContent = "Calma, você não perdeu ainda! Confia aí nesse tal do coração das cartas e vê se acha o Mago do Tempo!\nEscolha entre 4 cartas (2 Magos do Tempo e 2 Dragon Capture):";
+    mensagemJogo.textContent =
+      "Calma, você não perdeu ainda!\nConfia aí nesse tal do coração das cartas e vê se acha o Mago do Tempo!\nEscolha entre 4 cartas (2 Magos do Tempo e 2 Dragon Capture):";
 
-    const cartasDuelo = [imagens.mago, imagens.mago, imagens.capture, imagens.capture].sort(() => Math.random() - 0.5);
+    const cartasDuelo = [imagens.mago, imagens.mago, imagens.capture, imagens.capture].sort(
+      () => Math.random() - 0.5
+    );
     const containerDuelo = document.createElement("div");
-    containerDuelo.classList.add("duelo");
+    containerDuelo.classList.add("container-calma");
 
     cartasDuelo.forEach((img) => {
       const carta = criarCarta(imagens.verso);
@@ -208,10 +210,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // -------- Nível 4 --------
   function nivel4() {
-    mensagemJogo.textContent = "Você chegou no nível final, vamos ver se era só sorte ou se realmente tava acreditando no coração das cartas.";
+    mensagemJogo.textContent =
+      "Você chegou no nível final, vamos ver se era só sorte ou se realmente tava acreditando no coração das cartas.";
     containerCartas.innerHTML = "";
 
-    const cartas = [imagens.milenar, imagens.baby, imagens.capture, imagens.capture, imagens.kkk].sort(() => Math.random() - 0.5);
+    const cartas = [imagens.milenar, imagens.baby, imagens.capture, imagens.capture, imagens.kkk].sort(
+      () => Math.random() - 0.5
+    );
 
     cartas.forEach((img) => {
       const carta = criarCarta(imagens.verso);
@@ -224,9 +229,9 @@ document.addEventListener("DOMContentLoaded", () => {
             parabens();
           } else if (img === imagens.baby) {
             mensagemJogo.textContent = "Você encontrou o Baby Dragon!";
-          carta.classList.add("topo");
-          containerCartas.innerHTML = "";
-          containerCartas.appendChild(carta);
+            carta.classList.add("topo");
+            containerCartas.innerHTML = "";
+            containerCartas.appendChild(carta);
             setTimeout(() => calma3(carta), 1000);
           } else if (img === imagens.capture) {
             carta.style.animation = "desaparecer 1s forwards";
@@ -245,11 +250,14 @@ document.addEventListener("DOMContentLoaded", () => {
     containerCartas.innerHTML = "";
     babyCarta.classList.add("topo");
     containerCartas.appendChild(babyCarta);
-    mensagemJogo.textContent = "Calma, você não perdeu ainda! Confia aí nesse tal do coração das cartas e vê se acha o Mago do Tempo!\nEscolha entre 4 cartas (1 Mago do Tempo e 3 Dragon Capture):";
+    mensagemJogo.textContent =
+      "Calma, você não perdeu ainda!\nConfia aí nesse tal do coração das cartas e vê se acha o Mago do Tempo!\nEscolha entre 4 cartas (1 Mago do Tempo e 3 Dragon Capture):";
 
-    const cartasDuelo = [imagens.mago, imagens.capture, imagens.capture, imagens.capture].sort(() => Math.random() - 0.5);
+    const cartasDuelo = [imagens.mago, imagens.capture, imagens.capture, imagens.capture].sort(
+      () => Math.random() - 0.5
+    );
     const containerDuelo = document.createElement("div");
-    containerDuelo.classList.add("duelo");
+    containerDuelo.classList.add("container-calma");
 
     cartasDuelo.forEach((img) => {
       const carta = criarCarta(imagens.verso);
