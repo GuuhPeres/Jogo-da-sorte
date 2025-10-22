@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // -------- Nível 1 --------
   function nivel1() {
-    mensagemJogo.textContent = "Escolha entre 2 cartas e tente encontrar o Dragão Milenar:";
+    mensagemJogo.textContent = "Escolha entre 2 cartas:";
     containerCartas.innerHTML = "";
     for (let i = 0; i < 2; i++) {
       const carta = criarCarta(imagens.verso);
@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // -------- Nível 2 --------
   function nivel2() {
-    mensagemJogo.textContent = "Escolha entre 3 cartas e tente encontrar o Dragão Milenar:";
+    mensagemJogo.textContent = "Muito bem, mas vamos dificultar um pouco.\nEscolha entre 3 cartas:";
     containerCartas.innerHTML = "";
     const cartas = [imagens.milenar, imagens.milenar, imagens.baby].sort(() => Math.random() - 0.5);
 
@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // -------- Calma1 --------
   function calma1(babyCarta) {
     mensagemJogo.textContent =
-      "Calma, você não perdeu ainda! Confia aí nesse tal do coração das cartas e vê se acha o Mago do Tempo!";
+      "Calma, você não perdeu ainda! Confia aí nesse tal do coração das cartas e vê se acha o Mago do Tempo!\nEscolha entre duas cartas:";
     const containerDuelo = document.createElement("div");
     containerDuelo.classList.add("duelo");
     const opcoes = [imagens.mago, imagens.capture].sort(() => Math.random() - 0.5);
@@ -130,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // -------- Nível 3 --------
   function nivel3() {
-    mensagemJogo.textContent = "Escolha entre 4 cartas e tente achar o Dragão Milenar:";
+    mensagemJogo.textContent = "Okay, estava fácil demais, agora você pode prender o dragão antes mesmo de encontrar ele.\nEscolha entre 4 cartas:";
     containerCartas.innerHTML = "";
     const cartas = [imagens.milenar, imagens.milenar, imagens.baby, imagens.capture].sort(() => Math.random() - 0.5);
 
@@ -164,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
     containerCartas.innerHTML = "";
     babyCarta.classList.add("topo");
     containerCartas.appendChild(babyCarta);
-    mensagemJogo.textContent = "Calma, você não perdeu ainda! Confia aí nesse tal do coração das cartas e vê se acha o Mago do Tempo!:";
+    mensagemJogo.textContent = "Calma, você não perdeu ainda! Confia aí nesse tal do coração das cartas e vê se acha o Mago do Tempo!\nEscolha entre 4 cartas (2 Magos do Tempo e 2 Dragon Capture):";
 
     const cartasDuelo = [imagens.mago, imagens.mago, imagens.capture, imagens.capture].sort(() => Math.random() - 0.5);
     const containerDuelo = document.createElement("div");
@@ -197,7 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // -------- Nível 4 --------
   function nivel4() {
-    mensagemJogo.textContent = "Você chegou no nível final, vamos ver se era só sorte ou se realmente estava acreditando no coração das cartas";
+    mensagemJogo.textContent = "Você chegou no nível final, vamos ver se era só sorte ou se realmente tava acreditando no coração das cartas.";
     containerCartas.innerHTML = "";
 
     const cartas = [imagens.milenar, imagens.baby, imagens.capture, imagens.capture, imagens.kkk].sort(() => Math.random() - 0.5);
@@ -233,7 +233,7 @@ document.addEventListener("DOMContentLoaded", () => {
     containerCartas.innerHTML = "";
     babyCarta.classList.add("topo");
     containerCartas.appendChild(babyCarta);
-    mensagemJogo.textContent = "Calma, você não perdeu, Confia aí nesse tal do coração das cartas e vê se acha o Mago do Tempo, mas já antecipo, tem 3 jarros de capturar dragões, boa sorte!:";
+    mensagemJogo.textContent = "Calma, você não perdeu ainda! Confia aí nesse tal do coração das cartas e vê se acha o Mago do Tempo!\nEscolha entre 4 cartas (1 Mago do Tempo e 3 Dragon Capture):";
 
     const cartasDuelo = [imagens.mago, imagens.capture, imagens.capture, imagens.capture].sort(() => Math.random() - 0.5);
     const containerDuelo = document.createElement("div");
@@ -267,7 +267,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // -------- Tela de derrota --------
   function derrota() {
     containerCartas.innerHTML = "";
-    mensagemJogo.textContent = "Pooooxa, você devia ter confiado no coração das cartas!";
+    mensagemJogo.textContent = "Você devia ter confiado no coração das cartas!";
     const imgDerrota = document.createElement("img");
     imgDerrota.src = imagens.perdedor;
     imgDerrota.style.width = "200px";
@@ -286,4 +286,3 @@ document.addEventListener("DOMContentLoaded", () => {
     containerCartas.appendChild(imgParabens);
   }
 });
-
