@@ -154,44 +154,27 @@ body {
     padding: 10px;
   }
 
-  #container-cartas {
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    overflow-x: auto;
-    overflow-y: hidden;
-    width: 100vw;
-    padding: 10px 20px 20px 20px; /* espaçamento interno uniforme */
-    box-sizing: border-box;
-    scroll-padding-left: 20px; /* garante que a 1ª carta não corte */
-  }
+#container-cartas {
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100vw;
+  padding: 10px 20px 20px 20px; /* espaçamento interno uniforme */
+  box-sizing: border-box;
+  scroll-padding-left: 20px; /* garante que a 1ª carta não corte */
+}
 
-  #container-cartas .carta:first-child {
-    margin-left: 10px; /* pequeno espaço antes da 1ª carta */
-  }
-
-  #container-cartas {
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: smooth;
-  }
+#container-cartas .carta:first-child {
+  margin-left: 10px; /* pequeno espaço antes da 1ª carta */
+}
+#container-cartas {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
 
   .carta {
     width: 120px;
     height: 180px;
-  }
-}
-
-/* 🌟 Layout especial para as fases CALMA (2x2 cartas) */
-.container-calma {
-  display: grid !important;
-  grid-template-columns: repeat(2, auto);
-  justify-content: center;
-  gap: 15px;
-  margin-top: 20px;
-}
-
-@media (max-width: 600px) {
-  .container-calma {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
   }
 }
