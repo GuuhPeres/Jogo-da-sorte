@@ -21,6 +21,10 @@ document.addEventListener("DOMContentLoaded", () => {
     parabens: "Parabens.webp"
   };
 
+  // Variáveis para controlar a primeira carta do nível anterior
+  let primeiraCartaNivel2 = null;
+  let primeiraCartaNivel3 = null;
+
   // -------- Eventos Sim/Não --------
   btnSim.addEventListener("click", () => {
     telaInicial.classList.add("escondida");
@@ -69,7 +73,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function nivel2() {
     mensagemJogo.textContent = "Muito bem, mas vamos dificultar um pouco.\nEscolha entre 3 cartas:";
     containerCartas.innerHTML = "";
-    const cartas = [imagens.milenar, imagens.milenar, imagens.baby].sort(() => Math.random() - 0.5);
+
+    let cartas = [imagens.milenar, imagens.milenar, imagens.baby].sort(() => Math.random() - 0.5);
+    primeiraCartaNivel2 = cartas[0]; // salva a primeira carta do nível 2
 
     cartas.forEach((img) => {
       const carta = criarCarta(imagens.verso);
@@ -137,9 +143,19 @@ document.addEventListener("DOMContentLoaded", () => {
     mensagemJogo.textContent =
       "Okay, estava fácil demais, agora você pode prender o dragão antes mesmo de encontrar ele.\nEscolha entre 4 cartas:";
     containerCartas.innerHTML = "";
-    const cartas = [imagens.milenar, imagens.milenar, imagens.baby, imagens.capture].sort(
-      () => Math.random() - 0.5
-    );
+
+    let cartas = [imagens.milenar, imagens.milenar, imagens.baby, imagens.capture];
+
+    // Se a primeira carta do nível 2 foi Dragão Milenar, garante que a primeira do nível 3 não seja
+    if (primeiraCartaNivel2 === imagens.milenar) {
+      do {
+        cartas.sort(() => Math.random() - 0.5);
+      } while (cartas[0] === imagens.milenar);
+    } else {
+      cartas.sort(() => Math.random() - 0.5);
+    }
+
+    primeiraCartaNivel3 = cartas[0]; // salva a primeira carta do nível 3
 
     cartas.forEach((img) => {
       const carta = criarCarta(imagens.verso);
@@ -158,6 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
             carta.classList.add("topo");
             containerCartas.innerHTML = "";
             containerCartas.appendChild(carta);
+
             setTimeout(() => calma2(carta), 1000);
           } else {
             carta.style.animation = "desaparecer 1s forwards";
@@ -214,9 +231,16 @@ document.addEventListener("DOMContentLoaded", () => {
       "Você chegou no nível final, vamos ver se era só sorte ou se realmente tava acreditando no coração das cartas.";
     containerCartas.innerHTML = "";
 
-    const cartas = [imagens.milenar, imagens.baby, imagens.capture, imagens.capture, imagens.kkk].sort(
-      () => Math.random() - 0.5
-    );
+    let cartas = [imagens.baby, imagens.milenar, imagens.capture, imagens.capture, imagens.kkk];
+
+    // Se a primeira carta do nível 3 foi Dragão Milenar, garante que a primeira do nível 4 não seja
+    if (primeiraCartaNivel3 === imagens.milenar) {
+      do {
+        cartas.sort(() => Math.random() - 0.5);
+      } while (cartas[0] === imagens.milenar);
+    } else {
+      cartas.sort(() => Math.random() - 0.5);
+    }
 
     cartas.forEach((img) => {
       const carta = criarCarta(imagens.verso);
@@ -225,9 +249,8 @@ document.addEventListener("DOMContentLoaded", () => {
         carta.classList.add("selecionada");
         setTimeout(() => {
           carta.classList.remove("selecionada");
-          if (img === imagens.milenar) {
-            parabens();
-          } else if (img === imagens.baby) {
+          if (img === imagens.milenar) parabens();
+          else if (img === imagens.baby) {
             mensagemJogo.textContent = "Você encontrou o Baby Dragon!";
             carta.classList.add("topo");
             containerCartas.innerHTML = "";
