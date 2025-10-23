@@ -21,9 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     parabens: "Parabens.webp"
   };
 
-  // Variáveis para controlar a primeira carta do nível anterior
-  let primeiraCartaNivel2 = null;
-  let primeiraCartaNivel3 = null;
+  let primeiraCartaNivelAnterior = null; // Guarda a primeira carta do nível anterior
 
   // -------- Eventos Sim/Não --------
   btnSim.addEventListener("click", () => {
@@ -55,6 +53,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function nivel1() {
     mensagemJogo.textContent = "Escolha entre 2 cartas:";
     containerCartas.innerHTML = "";
+    primeiraCartaNivelAnterior = null;
+
     for (let i = 0; i < 2; i++) {
       const carta = criarCarta(imagens.verso);
       carta.addEventListener("click", () => {
@@ -73,9 +73,14 @@ document.addEventListener("DOMContentLoaded", () => {
   function nivel2() {
     mensagemJogo.textContent = "Muito bem, mas vamos dificultar um pouco.\nEscolha entre 3 cartas:";
     containerCartas.innerHTML = "";
+    let cartas = [imagens.milenar, imagens.milenar, imagens.baby];
 
-    let cartas = [imagens.milenar, imagens.milenar, imagens.baby].sort(() => Math.random() - 0.5);
-    primeiraCartaNivel2 = cartas[0]; // salva a primeira carta do nível 2
+    // Embaralha evitando que Dragão Milenar seja primeira se foi primeira no nível anterior
+    do {
+      cartas.sort(() => Math.random() - 0.5);
+    } while (primeiraCartaNivelAnterior === imagens.milenar && cartas[0] === imagens.milenar);
+
+    primeiraCartaNivelAnterior = cartas[0];
 
     cartas.forEach((img) => {
       const carta = criarCarta(imagens.verso);
@@ -146,26 +151,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let cartas = [imagens.milenar, imagens.milenar, imagens.baby, imagens.capture];
 
-    // Se a primeira carta do nível 2 foi Dragão Milenar, garante que a primeira do nível 3 não seja
-    if (primeiraCartaNivel2 === imagens.milenar) {
-      do {
-        cartas.sort(() => Math.random() - 0.5);
-      } while (cartas[0] === imagens.milenar);
-    } else {
+    // Embaralha até que primeira carta não seja Dragão Milenar se foi primeira no nível2
+    do {
       cartas.sort(() => Math.random() - 0.5);
-    }
+    } while (primeiraCartaNivelAnterior === imagens.milenar && cartas[0] === imagens.milenar);
 
-    primeiraCartaNivel3 = cartas[0]; // salva a primeira carta do nível 3
+    primeiraCartaNivelAnterior = cartas[0];
 
     cartas.forEach((img) => {
       const carta = criarCarta(imagens.verso);
       carta.addEventListener("click", () => {
         carta.src = img;
         carta.classList.add("selecionada");
-
         setTimeout(() => {
           carta.classList.remove("selecionada");
-
           if (img === imagens.milenar) {
             mensagemJogo.textContent = "Você avançou para o próximo nível!";
             nivel4();
@@ -174,7 +173,6 @@ document.addEventListener("DOMContentLoaded", () => {
             carta.classList.add("topo");
             containerCartas.innerHTML = "";
             containerCartas.appendChild(carta);
-
             setTimeout(() => calma2(carta), 1000);
           } else {
             carta.style.animation = "desaparecer 1s forwards";
@@ -233,14 +231,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let cartas = [imagens.baby, imagens.milenar, imagens.capture, imagens.capture, imagens.kkk];
 
-    // Se a primeira carta do nível 3 foi Dragão Milenar, garante que a primeira do nível 4 não seja
-    if (primeiraCartaNivel3 === imagens.milenar) {
-      do {
-        cartas.sort(() => Math.random() - 0.5);
-      } while (cartas[0] === imagens.milenar);
-    } else {
+    // Embaralha até que primeira carta não seja Dragão Milenar se foi primeira no nível3
+    do {
       cartas.sort(() => Math.random() - 0.5);
-    }
+    } while (primeiraCartaNivelAnterior === imagens.milenar && cartas[0] === imagens.milenar);
+
+    primeiraCartaNivelAnterior = cartas[0];
 
     cartas.forEach((img) => {
       const carta = criarCarta(imagens.verso);
@@ -249,8 +245,9 @@ document.addEventListener("DOMContentLoaded", () => {
         carta.classList.add("selecionada");
         setTimeout(() => {
           carta.classList.remove("selecionada");
-          if (img === imagens.milenar) parabens();
-          else if (img === imagens.baby) {
+          if (img === imagens.milenar) {
+            parabens();
+          } else if (img === imagens.baby) {
             mensagemJogo.textContent = "Você encontrou o Baby Dragon!";
             carta.classList.add("topo");
             containerCartas.innerHTML = "";
@@ -309,15 +306,67 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // -------- Tela de derrota --------
   function derrota() {
-    containerCartas.innerHTML = "";
-    mensagemJogo.textContent = "Você devia ter confiado no coração das cartas!";
-    const imgDerrota = document.createElement("img");
-    imgDerrota.src = imagens.perdedor;
-    imgDerrota.style.width = "200px";
-    containerCartas.appendChild(imgDerrota);
-    telaDerrota.classList.remove("escondida");
-    telaJogo.classList.add("escondida");
-  }
+  // Limpa o container da tela de derrota
+  telaDerrota.innerHTML = "";
+
+  // Texto "Seu dragão foi capturado!"
+  const textoCaptura = document.createElement("p");
+  textoCaptura.textContent = "Seu dragão foi capturado!";
+  textoCaptura.style.textAlign = "center";
+  textoCaptura.style.fontWeight = "bold";
+  textoCaptura.style.margin = "10px 0";
+
+  // Imagem Dragon Capture
+  const imgCapture = document.createElement("img");
+  imgCapture.src = imagens.capture;
+  imgCapture.style.width = "150px";
+  imgCapture.style.margin = "10px 0";
+
+  // Texto original de derrota
+  const textoDerrota = document.createElement("p");
+  textoDerrota.textContent = "Você devia ter confiado no coração das cartas!";
+  textoDerrota.style.textAlign = "center";
+  textoDerrota.style.margin = "10px 0";
+
+  // Imagem do perdedor
+  const imgDerrota = document.createElement("img");
+  imgDerrota.src = imagens.perdedor;
+  imgDerrota.style.width = "200px";
+  imgDerrota.style.margin = "10px 0";
+
+  // Botão jogar novamente
+  const btnNovamente = document.createElement("button");
+  btnNovamente.id = "btn-jogar-novamente";
+  btnNovamente.textContent = "Jogar Novamente";
+  btnNovamente.style.margin = "20px 0";
+  btnNovamente.style.padding = "10px 25px";
+  btnNovamente.style.fontSize = "18px";
+  btnNovamente.style.cursor = "pointer";
+  btnNovamente.style.backgroundColor = "#ffcc00";
+  btnNovamente.style.border = "none";
+  btnNovamente.style.borderRadius = "8px";
+  btnNovamente.style.fontWeight = "bold";
+  btnNovamente.style.color = "#000";
+
+  // Evento do botão jogar novamente
+  btnNovamente.addEventListener("click", () => {
+    telaDerrota.classList.add("escondida");
+    telaJogo.classList.remove("escondida");
+    nivel1();
+  });
+
+  // Adiciona tudo na tela de derrota
+  telaDerrota.appendChild(textoCaptura);
+  telaDerrota.appendChild(imgCapture);
+  telaDerrota.appendChild(textoDerrota);
+  telaDerrota.appendChild(imgDerrota);
+  telaDerrota.appendChild(btnNovamente);
+
+  // Mostra a tela de derrota e esconde a tela de jogo
+  telaDerrota.classList.remove("escondida");
+  telaJogo.classList.add("escondida");
+}
+
 
   // -------- Tela de parabéns --------
   function parabens() {
