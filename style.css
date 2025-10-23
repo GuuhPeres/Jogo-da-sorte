@@ -108,6 +108,19 @@ body {
   margin-top: 20px;
 }
 
+#tela-derrota img {
+  width: 200px;
+  margin-top: 10px;
+}
+
+#tela-derrota p {
+  font-size: 18px;
+  margin: 10px 0;
+  white-space: pre-line;
+  line-height: 1.5;
+}
+
+/* Animações */
 @keyframes fusao {
   0% {
     transform: translateY(0) scale(1);
@@ -128,12 +141,6 @@ body {
     opacity: 0;
     transform: scale(0);
   }
-}
-
-#tela-derrota img,
-#tela-parabens img {
-  width: 200px;
-  margin-top: 20px;
 }
 
 /* 🔹 Quebra de linha no texto */
@@ -160,5 +167,14 @@ body {
   .carta {
     width: 120px;
     height: 180px;
+  }
+
+  #tela-derrota img {
+    width: 120px;
+    margin-top: 5px;
+  }
+
+  #tela-derrota p {
+    font-size: 16px;
   }
 }
